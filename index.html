@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EyeDefense AI | Professional Ocular Wellness</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body class="light-theme">
+    <div class="app-container">
+        <!-- Top Navigation Bar -->
+        <header class="top-nav">
+            <div class="brand">
+                <div class="shield-logo">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2L4 5V11C4 16.19 7.41 21.05 12 22C16.59 21.05 20 16.19 20 11V5L12 2Z" stroke="#6366f1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <h1>EyeDefense<span>.io</span></h1>
+            </div>
+            <div id="status-chip" class="chip initializing">System Initializing...</div>
+        </header>
+
+        <main class="content-grid">
+            <!-- Left Corner: Camera View -->
+            <section class="camera-section">
+                <div class="camera-box">
+                    <div class="video-container">
+                        <div class="video-overlay"></div>
+                        <video id="webcam" autoplay playsinline></video>
+                        <canvas id="output_canvas"></canvas>
+                    </div>
+                </div>
+                <div class="system-logs">
+                    <label>Telemetry Logs</label>
+                    <div class="console-log" id="system-messages">
+                        [SYSTEM] Awaiting neural synchronization...
+                    </div>
+                </div>
+            </section>
+
+            <!-- Right/Center: Features and Metrics -->
+            <section class="features-section">
+                <div class="metrics-grid">
+                    <div class="metric-card glass-panel highlight">
+                        <div class="card-header">
+                            <label>Fatigue Analysis</label>
+                            <span id="strain-label" class="status-indicator">OPTIMAL</span>
+                        </div>
+                        <div class="gauge-wrapper">
+                            <div class="gauge-track">
+                                <div class="gauge-fill" id="fatigue-bar" style="width: 0%"></div>
+                            </div>
+                        </div>
+                        <div class="value-display">
+                            <span class="value" id="fatigue-score">0%</span>
+                            <span class="sub-label">Integrative Fatigue Index</span>
+                        </div>
+                    </div>
+
+                    <div class="metric-card glass-panel">
+                        <label>Blink Velocity (Avg)</label>
+                        <div class="value-row">
+                            <span id="blink-rate" class="compact-value">0</span>
+                            <span class="unit">bpm</span>
+                        </div>
+                    </div>
+
+                    <div class="metric-card glass-panel">
+                        <label>Fixation Stability</label>
+                        <div class="value-row">
+                            <span id="jitter-val" class="compact-value">0.0</span>
+                            <span class="unit">ms</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="analysis-panel glass-panel">
+                    <label>Real-time Ocular Telemetry</label>
+                    <div class="telemetry-output" id="math-log">
+                        <div class="log-entry">Waiting for facial recognition...</div>
+                    </div>
+                </div>
+
+                <div class="actions-panel">
+                    <button id="toggle-guardian" class="btn-primary">Start Monitoring</button>
+                    <div class="secondary-actions">
+                        <button id="debug-trigger" class="btn-secondary">Run Diagnostics</button>
+                        <button id="reset-btn" class="btn-icon">
+                            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Intervention Overlay remains fixed -->
+        <div id="intervention-overlay" class="intervention hidden">
+            <div class="therapy-container">
+                <div class="therapy-steps">
+                    <div id="step-1" class="step active">SACCADIC</div>
+                    <div id="step-2" class="step">PURSUIT</div>
+                    <div id="step-3" class="step">DEPTH</div>
+                </div>
+
+                <div class="game-area">
+                    <div id="game-canvas-area">
+                        <div id="nebula-1" class="nebula-target pos-tl"></div>
+                        <div id="nebula-2" class="nebula-target pos-tr"></div>
+                        <div id="nebula-3" class="nebula-target pos-bl"></div>
+                        <div id="nebula-4" class="nebula-target pos-br"></div>
+                        <div id="infinity-orb" class="celestial-orb hidden"></div>
+                        <div id="depth-pulsar" class="pulsar hidden"></div>
+                    </div>
+
+                    <div class="instruction-box">
+                        <h2 id="stage-title">WARMUP: Nebula Saccades</h2>
+                        <p id="stage-desc">Focus on the targets as they appear.</p>
+                        <div id="head-warning" class="warning-text hidden">MAINTAIN HEAD POSITION</div>
+                    </div>
+                </div>
+
+                <div class="progress-footer">
+                    <div class="global-progress">
+                        <div id="game-progress" class="progress-bar"></div>
+                    </div>
+                    <button id="next-stage-btn" onclick="moveToNextStage()" class="btn-primary next-btn">LOCKED</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js" type="module"></script>
+</body>
+</html>
+
