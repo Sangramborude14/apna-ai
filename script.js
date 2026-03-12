@@ -28,6 +28,8 @@ let currentStage = 1; // 1: Saccadic, 2: Pursuit, 3: Depth
 let stageStartTime = 0;
 let initialNosePos = null;
 let stageCompleted = false;
+let gameTimeRef = 0; // Cumulative time while focused
+let lastFrameTime = performance.now();
 
 /** 🚀 INITIALIZATION **/
 async function init() {
@@ -162,6 +164,8 @@ function runTherapyCombo(landmarks) {
     const nose = landmarks[1];
     if (!initialNosePos) initialNosePos = { x: nose.x, y: nose.y };
     const now = performance.now();
+    const deltaTime = (now - lastFrameTime);
+    lastFrameTime = now;
     const elapsed = (now - stageStartTime) / 1000;
 
     // Head Movement Check (Relaxed slightly to prevent frustration)
@@ -193,17 +197,17 @@ function runTherapyCombo(landmarks) {
     const noseX = (1 - nose.x) * 100;
     const noseY = nose.y * 100;
 
-    if (currentStage === 1) handleNebulaStage(noseX, noseY);
-    else if (currentStage === 2) handleInfinityStage(noseX, noseY);
-    else if (currentStage === 3) handleDepthStage(noseX, noseY);
+    if (currentStage === 1) handleNebulaStage(noseX, noseY, deltaTime);
+    else if (currentStage === 2) handleInfinityStage(noseX, noseY, deltaTime);
+    else if (currentStage === 3) handleDepthStage(noseX, noseY, deltaTime);
 
     updateProgress();
 }
 
-function handleNebulaStage(nx, ny) {
+function handleNebulaStage(nx, ny, dt) {
     const targets = document.querySelectorAll(".nebula-target");
-    // Activate a target based on time
-    const activeIdx = Math.floor((performance.now() / 1500) % 4);
+    // Only advance the active target index if we are focused on the current one
+    const activeIdx = Math.floor((gameTimeRef / 1500) % 4);
     targets.forEach((t, i) => t.classList.toggle("active", i === activeIdx));
 
     const activeTarget = targets[activeIdx];
@@ -213,14 +217,17 @@ function handleNebulaStage(nx, ny) {
     const ty = ((rect.top + rect.height/2 - parentRect.top) / parentRect.height) * 100;
 
     if (Math.sqrt(Math.pow(nx - tx, 2) + Math.pow(ny - ty, 2)) < 15) {
-        updateProgress(0.2);
+        gameTimeRef += dt; // Only rotate targets while looking
+        stageCompleted = true; // Technically progress is time-based, but eye contact is required
     }
 }
 
-function handleInfinityStage(nx, ny) {
+function handleInfinityStage(nx, ny, dt) {
     const orb = document.getElementById("infinity-orb");
     orb.classList.remove("hidden");
-    const time = performance.now() / 2000;
+    
+    // Smooth Pursuit only moves while eye is on it
+    const time = gameTimeRef / 2000;
     const tx = 50 + (35 * Math.sin(time));
     const ty = 50 + (25 * Math.sin(time) * Math.cos(time));
     
@@ -228,16 +235,20 @@ function handleInfinityStage(nx, ny) {
     orb.style.top = `${ty}%`;
 
     if (Math.sqrt(Math.pow(nx - tx, 2) + Math.pow(ny - ty, 2)) < 12) {
-        updateProgress(0.3);
+        gameTimeRef += dt; // Orb moves ONLY when user looks at it
     }
 }
 
-function handleDepthStage(nx, ny) {
+function handleDepthStage(nx, ny, dt) {
     const pulsar = document.getElementById("depth-pulsar");
     pulsar.classList.remove("hidden");
-    // Pulse expansion represents depth shift
-    if (Math.sqrt(Math.pow(nx - 50, 2) + Math.pow(ny - 50, 2)) < 10) {
-        updateProgress(0.4);
+    
+    // Depth Pulsar only pulses while focused
+    if (Math.sqrt(Math.pow(nx - 50, 2) + Math.pow(ny - 50, 2)) < 15) {
+        gameTimeRef += dt;
+        // Visual pulsing feedback tied to gameTimeRef
+        const scale = 1 + 0.5 * Math.sin(gameTimeRef / 500);
+        pulsar.style.transform = `scale(${scale})`;
     }
 }
 
@@ -251,6 +262,7 @@ function updateProgress() {
 // Attachment for the Next Button (New function)
 window.moveToNextStage = () => {
     currentStage++;
+    gameTimeRef = 0; // Reset for next stage
     if (currentStage > 3) {
         completeIntervention();
     } else {
