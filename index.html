@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Active Eye Defense | Ocular Trifecta</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision/vision_bundle.js" crossorigin="anonymous"></script>
+</head>
+<body class="safe-mode">
+    <div class="app-shell">
+        <!-- Sidebar Dashboard -->
+        <aside class="dashboard">
+            <header>
+                <div class="brand">
+                    <div class="shield-logo">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 2L4 5V11C4 16.19 7.41 21.05 12 22C16.59 21.05 20 16.19 20 11V5L12 2Z" stroke="#6366f1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <h1>EyeDefense<span>.v3</span></h1>
+                </div>
+                <div id="status-chip" class="chip initializing">Syncing AI...</div>
+            </header>
+
+            <section class="live-metrics">
+                <div class="metric-card glass">
+                    <label>Integrative Fatigue Index (IFI)</label>
+                    <div class="gauge-container">
+                        <div class="gauge-bar" id="fatigue-bar" style="width: 0%"></div>
+                    </div>
+                    <div class="flex-row">
+                        <div class="value" id="fatigue-score">0%</div>
+                        <div id="strain-label" class="sub-label">OPTIMAL</div>
+                    </div>
+                </div>
+
+                <div class="mini-grid">
+                    <div class="metric-panel glass">
+                        <label>Blink Density (1m)</label>
+                        <span id="blink-rate">0</span>
+                    </div>
+                    <div class="metric-panel glass">
+                        <label>Fixation Jitter</label>
+                        <span id="jitter-val">0.0</span>
+                    </div>
+                </div>
+            </section>
+
+            <section class="math-viewer glass">
+                <label>Neural Telemetry</label>
+                <div class="live-calc" id="math-log">
+                    <div class="log-line">Waiting for face mesh...</div>
+                </div>
+            </section>
+
+            <section class="controls">
+                <button id="toggle-guardian" class="btn primary">Activate Guardian</button>
+                <div class="btn-group">
+                    <button id="debug-trigger" class="btn secondary">Test Combo</button>
+                    <button id="reset-btn" class="btn icon-btn">🔄</button>
+                </div>
+            </section>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="vision-core">
+            <div class="video-container">
+                <div class="video-overlay glass-vignette"></div>
+                <video id="webcam" autoplay playsinline></video>
+                <canvas id="output_canvas"></canvas>
+            </div>
+            
+            <div class="console-log glass" id="system-messages">
+                [SYSTEM] Neural Ocular Sentinel initialized...
+            </div>
+        </main>
+
+        <!-- NEW 3-STAGE INTERVENTION OVERLAY -->
+        <div id="intervention-overlay" class="intervention hidden">
+            <div class="therapy-container">
+                <div class="therapy-steps">
+                    <div id="step-1" class="step active">1. SACCADIC</div>
+                    <div id="step-2" class="step">2. PURSUIT</div>
+                    <div id="step-3" class="step">3. DEPTH</div>
+                </div>
+
+                <div class="game-stage">
+                    <div id="game-canvas-area">
+                        <!-- Nebula Targets for Stage 1 -->
+                        <div id="nebula-1" class="nebula-target pos-tl"></div>
+                        <div id="nebula-2" class="nebula-target pos-tr"></div>
+                        <div id="nebula-3" class="nebula-target pos-bl"></div>
+                        <div id="nebula-4" class="nebula-target pos-br"></div>
+
+                        <!-- Infinity Orb for Stage 2 -->
+                        <div id="infinity-orb" class="celestial-orb hidden"></div>
+
+                        <!-- Depth Pulsar for Stage 3 -->
+                        <div id="depth-pulsar" class="pulsar hidden"></div>
+                    </div>
+
+                    <div class="instruction-wrap">
+                        <h2 id="stage-title">WARMUP: Nebula Saccades</h2>
+                        <p id="stage-desc">Quickly look at the flashing targets as they appear.</p>
+                        <div id="head-warning" class="warning-text hidden">KEEP HEAD STILL</div>
+                    </div>
+                </div>
+
+                <div class="progress-section">
+                    <div class="total-progress">
+                        <div id="game-progress" class="progress-fill"></div>
+                    </div>
+                    <button id="next-stage-btn" onclick="moveToNextStage()" class="btn primary next-btn">LOCKED (30s)</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js" type="module"></script>
+</body>
+</html>
