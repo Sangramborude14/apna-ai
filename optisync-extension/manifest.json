@@ -1,0 +1,24 @@
+{
+  "manifest_version": 3,
+  "name": "OptiSync",
+  "version": "1.0",
+  "description": "Context-Aware Vision Therapy with Edge-AI Telemetry.",
+  "permissions": [
+    "offscreen",
+    "activeTab",
+    "scripting"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "css": ["content.css"]
+    }
+  ]
+}

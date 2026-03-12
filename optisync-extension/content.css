@@ -1,0 +1,102 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
+
+/* FEATURE 1: Ambient Widget */
+#optisync-widget {
+  all: initial; /* Reset parent styles to avoid conflict */
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: rgba(10, 15, 20, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 8px 16px;
+  border-radius: 50px;
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  z-index: 2147483647; /* MAX Z-INDEX */
+  font-family: 'Inter', system-ui, sans-serif;
+  color: white;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  pointer-events: none;
+  user-select: none;
+}
+
+#optisync-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  transition: background-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+.dot-green { background-color: #10b981; box-shadow: 0 0 12px rgba(16, 185, 129, 0.8); }
+.dot-yellow { background-color: #f59e0b; box-shadow: 0 0 12px rgba(245, 158, 11, 0.8); }
+.dot-red { background-color: #ef4444; box-shadow: 0 0 12px rgba(239, 68, 68, 0.8); }
+
+#optisync-text {
+  font-weight: 600;
+  font-size: 14px;
+  color: #fff;
+}
+
+/* FEATURE 3: Smart Modal Lock */
+#optisync-modal {
+  all: initial;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(5, 8, 12, 0.95);
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+  z-index: 2147483647;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.5s;
+}
+
+#optisync-modal.hidden {
+  opacity: 0;
+  pointer-events: none;
+  transform: scale(1.05); /* Slight pop effect on show/hide */
+}
+
+.optisync-wrap {
+  text-align: center;
+  font-family: 'Inter', system-ui, sans-serif;
+  max-width: 500px;
+  color: white;
+}
+
+.opti-header {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #ef4444;
+  margin: 0 0 1rem 0;
+  text-shadow: 0 0 30px rgba(239, 68, 68, 0.4);
+}
+
+.opti-instruction {
+  font-size: 1.2rem;
+  color: #94a3b8;
+  margin: 0 0 2rem 0;
+}
+
+.opti-progress-bar {
+  width: 100%;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 100px;
+  overflow: hidden;
+}
+
+#opti-progress-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #3b82f6, #6366f1);
+  box-shadow: 0 0 10px rgba(99, 102, 241, 0.5);
+  transition: width 0.1s linear;
+}
